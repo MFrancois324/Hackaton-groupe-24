@@ -12,6 +12,7 @@ BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 GOLD=(255,215,0)
 GREEN=(0,255,0)
+RED=(255,0,0)
 WINDOW_WIDTH=400
 WINDOW_HEIGHT=440
 W=20
@@ -36,10 +37,12 @@ ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
 MONEY=font.render("*",True,GOLD)
 POTION=font.render("P",True,GREEN)
+KESHA=font.render("K", True,RED)
+MONSTRE=font.render("M",True,RED)
 
 #Barre d'état
 Or=0
-Pv=0
+Pv=100
 Lvl=1
 AFFICHE_OR=font.render("Gold : ",True,GOLD)
 AFFICHE_PV=font.render("PV : ",True,GOLD)
@@ -113,15 +116,101 @@ def generate_potion(matrice):
     for i in range(matrice.shape[0]):
         for j in range(matrice.shape[1]):
             if matrice[i][j] == '.':  # Si c'est un point
-                if rd.random() < 0.01:  # 10% de chance de devenir de l'or
+                if rd.random() < 0.1:  # 10% de chance de devenir de l'or
                     matrice[i][j] = 'P'  # Remplacer le point par de l'or
     return matrice
+
+
+###### Partie Monstre fixe #######
+
+def generate_monster(matrice):
+    """
+    Remplace aléatoirement 10% des points dans la matrice par de l'or ('*').
+    Les points sont initialement des '.'.
+    """
+    for i in range(matrice.shape[0]):
+        for j in range(matrice.shape[1]):
+            if matrice[i][j] == '.':  # Si c'est un point
+                if rd.random() < 0.05:  # 10% de chance de devenir un monstre
+                    matrice[i][j] = 'M'  # Remplacer le point par un monstre
+    return matrice
+
+def compte_points_monstre(matrice, position) :
+    i,j = position[0], position[1]
+    global Pv
+    if matrice[i+1][j]=="M" or matrice[i-1][j]=="M" or matrice[i][j+1]=="M" or matrice[i][j-1]=="M" :
+        Pv-=10
+    if matrice[i+1][j]=="K" or matrice[i-1][j]=="K" or matrice[i][j+1]=="K" or matrice[i][j-1]=="K" :
+        Pv-=rd.randint(10,20)
+        if Pv==0 : 
+            print("Game Over")
+        
+def tuer_monstre(matrice, position) :
+    global Pv
+    i,j = position[0],position[1]
+    if (event.key == pygame.K_LEFT and matrice[i-1][j]=="M" or matrice[i-1][j]=="K") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i-1][j]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+    if (event.key == pygame.K_RIGHT and matrice[i+1][j]=="M" or matrice[i+1][j]=="K") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i+1][j]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+    if (event.key == pygame.K_UP and matrice[i][j+1]=="M" or matrice[i][j+1]=="K") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i][j+1]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+     
+    if (event.key == pygame.K_DOWN and matrice[i][j-1]=="M" or matrice[i][j-1]=="K") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i][j-1]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+### Monstres mobiles
+
+pos_K=None
+def generate_monstre_mobile(matrice):
+    global pos_K
+    stop=0
+    for i in range(matrice.shape[0]):
+        for j in range(matrice.shape[1]):
+            if stop==0:
+                if matrice[i][j] == '.':  # Si c'est un point
+                    if rd.random() < 0.1:  # % de chance de devenir un monstre
+                        matrice[i][j] = 'K'  # Remplacer le point 
+                        pos_K=(i,j)
+                        stop=1        # on ne veut qu'1 monstre
+    return matrice
+
+def move_K():
+    global PLATEAU
+    global pos_K
+    x,y=pos_K
+    alterne=rd.randint(0,1)
+    if alterne==1:
+        x+=rd.randint(-1,1)
+    else:
+        y+=rd.randint(-1,1)
+    while pos_possible((x,y),PLATEAU)==False:
+        alterne=rd.randint(0,1)
+        if alterne==1:
+            x+=rd.randint(-1,1)
+        else:
+            y+=rd.randint(-1,1)
+    PLATEAU[pos_K[0]][pos_K[1]]=BACKGROUND[pos_K[0]][pos_K[1]]
+    pos_K=(x,y)
+    PLATEAU[x][y]='K'
+    return
 
 BACKGROUND = etage_1()
 PLATEAU = BACKGROUND.copy()
 PLATEAU[pos[0]][pos[1]]='@'
 generate_gold(PLATEAU)
 generate_potion(PLATEAU)
+generate_monster(PLATEAU)
+generate_monstre_mobile(PLATEAU)
 
 def drawGrid():
     AFFICHE_OR1=font.render(str(Or),True,GOLD)
@@ -148,6 +237,10 @@ def drawGrid():
                 SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
             if PLATEAU[i][j]=='P':
                 SCREEN.blit(POTION,(j*blockSize,i*blockSize))
+            if PLATEAU[i][j]=='K':
+                SCREEN.blit(KESHA,(j*blockSize,i*blockSize))
+            if PLATEAU[i][j]=='M':
+                SCREEN.blit(MONSTRE,(j*blockSize,i*blockSize))
     SCREEN.blit(AFFICHE_LEVEL,(0,21*blockSize))
     SCREEN.blit(AFFICHE_OR,(8*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV,(15*blockSize,21*blockSize))
@@ -182,6 +275,8 @@ def move(event):
         PLATEAU=BACKGROUND.copy()
         generate_gold(PLATEAU)
         generate_potion(PLATEAU)
+        generate_monstre_mobile(PLATEAU)
+        generate_monster(PLATEAU)
         if (x,y)==(14,6):
             pos=(4,2)
         if (x,y)==(12,17):
@@ -225,6 +320,9 @@ while True:
             sys.exit()
         if event.type == KEYDOWN:
             move(event)
+            move_K()
+            tuer_monstre(PLATEAU,pos)
+            compte_points_monstre(PLATEAU,pos)
         pygame.display.update()
     pygame.time.delay(100)
 
