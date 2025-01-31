@@ -55,6 +55,8 @@ def move(position, plateau, event):
     return ((x, y))
 
 
+
+
 def check(pos):
     x,y=pos[0],pos[1]
     return x>=0 and x<W and y>=0 and y<H
