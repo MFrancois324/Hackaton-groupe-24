@@ -308,6 +308,16 @@ def pos_possible(pos,plateau):
     else :
         return False
 
+GAME_OVER=font.render("GAME OVER !!",True,RED)
+def est_mort():
+    global Pv
+    if Pv<=0:
+        SCREEN.fill(BLACK)
+        SCREEN.blit(GAME_OVER, (20,20))
+        pygame.time.delay(5000)
+        pygame.quit()
+        sys.exit()
+        
 
 #La boucle de jeu principale
 while True:
@@ -324,5 +334,6 @@ while True:
             tuer_monstre(PLATEAU,pos)
             compte_points_monstre(PLATEAU,pos)
         pygame.display.update()
+    est_mort()
     pygame.time.delay(100)
 
