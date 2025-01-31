@@ -20,7 +20,14 @@ SCREEN.fill(BLACK)
 
 # Créer une police
 font = pygame.font.Font(None, 30)  # Police par défaut, taille 74
-POINT=font.render("#",True,WHITE)
+POINT=font.render(".",True,WHITE)
+COULOIR=font.render("#",True,WHITE)
+MUR_VERT=font.render("|",True,WHITE)
+MUR_HOR=font.render("-",True,WHITE)
+PORTE=font.render("+",True,WHITE)
+ESCALIER=font.render("=",True,WHITE)
+PERSO=font.render("@",True,WHITE)
+
 def drawGrid():
     blockSize = 20 #Set the size of the grid block
     for x in range(0, WINDOW_WIDTH, blockSize):
