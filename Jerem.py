@@ -17,48 +17,6 @@ global SCREEN, CLOCK
 blockSize = 20 #Set the size of the grid block
 pos = (1,1)
 
-BACKGROUND = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
-BACKGROUND [0], BACKGROUND [19]= ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'], ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
-BACKGROUND [pos[0]][pos[1]]='@'
-BACKGROUND [3][19]='='
-
-PLATEAU = BACKGROUND.copy()
-
-
-
-def move(plateau, event):
-    # Déplace le joueur en fonction de l'événement clavier
-    global pos
-    x, y = pos
-    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), plateau)==True) :  # Flèche gauche
-        y -= 1
-    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),plateau)== True):  # Flèche droite
-        y += 1
-    elif (event.key == pygame.K_UP and pos_possible((x-1,y), plateau)== True):  # Flèche haut
-        x -= 1
-    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), plateau)==True):  # Flèche bas
-        x += 1
-    plateau[pos[0]][pos[1]]=BACKGROUND[x][y]
-    pos = (x,y)
-    plateau[x][y]='@'
-
-
-
-def check(pos):
-    x,y=pos[0],pos[1]
-    return x>=0 and x<W and y>=0 and y<H
-
-
-def pos_possible(pos,plateau):
-    autorisé=['.','#','+','=']
-    interdit=['|','-','@']
-    x,y=pos[0],pos[1]
-    
-    if check((x,y)) and (plateau[x][y] in autorisé):
-        return True
-    else :
-        return False
-
 pygame.init()
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 CLOCK = pygame.time.Clock()
@@ -89,8 +47,46 @@ AFFICHE_LEVEL1=font.render(str(Lvl),True,GOLD)
 
 
 ### LA FONCTION AFFICHAGE ###
+def etage_1(): 
+    matrice = np.zeros ((20,20),dtype=str)
+    matrice[0] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
+    matrice[1] = ['|','.','.','.','+','#','#','#','#','#','+','.','.','.','.','.','|','','','|']
+    matrice[2] = ['|','.','.','.','|','','','','','','|','.','.','.','.','.','|','-','-','|']
+    matrice[3] = ['|','.','.','.','|','','','','','','|','.','.','.','.','.','.','.','.','|']
+    matrice[4] = ['|','.','.','.','|','','','','','','|','-','-','-','-','+','-','-','-','|']
+    matrice[5] = ['|','.','.','.','+','#','#','','','','','','','','','#','','','','|']
+    matrice[6] = ['|','-','+','-','-','','#','','|','-','-','-','-','','','#','','','','|']
+    matrice[7] = ['|','','#','','','','#','','|','.','.','.','.','|','','#','','','','|']
+    matrice[8] = ['|','','#','','','','#','#','+','.','.','.','.','|','-','+','-','-','-','|']
+    matrice[9] = ['|','','#','','','','','','|','-','-','-','-','|','|','.','.','.','.','|']
+
+    matrice_bas= np.array([["|","-","+","-","-","-","-","-","|","","","","","","|",".",".",".",".","|"],
+        ["|",".",".",".",".",".",".",".","|","","","","","","|",".",".",".",".","|"] ,
+        ["|",".",".",".",".",".",".",".","+","#","#","#","#","","|",".",".","=",".","|"],
+        ["|",".",".",".",".",".",".",".","|","","","","#","","|",".",".",".",".","|"],
+        ["|","-","-","+","-","|","=",".","|","","","","#","#","+",".",".",".",".","|"],
+        ["|","","","#","","|",".",".","|","","","","","","|",".",".",".",".","|"],
+        ["|","","","#","","|","-","-","-","","","","","","|","-","-","+","-","|"],
+        ["|","-","-","+","-","-","-","-","-","-","-","-","-","-","|","","#","#","","|"],
+        ["|",".",".",".",".",".",".",".",".",".",".",".",".",".","+","#","#","","","|"],
+    ["|","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","|"]])
+
+
+
+    return np.vstack((matrice[:10],matrice_bas))
+
+def etage_2():
+    matrice = np.transpose(etage_1())
+    return matrice
+
+
+BACKGROUND = etage_1()
+PLATEAU = BACKGROUND.copy()
+PLATEAU[pos[0]][pos[1]]='@'
+#PLATEAU[3][19]='='
 
 def drawGrid():
+    blockSize = 20 #Set the size of the grid block
     for i in range (20):
         for j in range (20):
             if PLATEAU[i][j]=='|':
@@ -116,6 +112,40 @@ def drawGrid():
     SCREEN.blit(AFFICHE_OR1,(12*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV1,(18*blockSize,21*blockSize))
 
+def move(plateau, event):
+    # Déplace le joueur en fonction de l'événement clavier
+    global pos
+    x, y = pos
+    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), plateau)==True) :  # Flèche gauche
+        y -= 1
+    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),plateau)== True):  # Flèche droite
+        y += 1
+    elif (event.key == pygame.K_UP and pos_possible((x-1,y), plateau)== True):  # Flèche haut
+        x -= 1
+    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), plateau)==True):  # Flèche bas
+        x += 1
+    plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
+    pos = (x,y)
+    plateau[x][y]='@'
+
+
+
+def check(pos):
+    x,y=pos[0],pos[1]
+    return x>=0 and x<W and y>=0 and y<H
+
+
+def pos_possible(pos,plateau):
+    autorisé=['.','#','+','=']
+    interdit=['|','-','@']
+    x,y=pos[0],pos[1]
+    
+    if check((x,y)) and (plateau[x][y] in autorisé):
+        return True
+    else :
+        return False
+
+
 #La boucle de jeu principale
 while True:
     SCREEN.fill(BLACK)
@@ -127,7 +157,6 @@ while True:
             sys.exit()
         if event.type == KEYDOWN:
             move(PLATEAU,event)
-        #print(PLATEAU)
         pygame.display.update()
     pygame.time.delay(100)
 
