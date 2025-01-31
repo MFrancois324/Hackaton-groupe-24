@@ -10,6 +10,8 @@ import pygame, sys
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
+GOLD=(255,215,0)
+GREEN=(0,255,0)
 WINDOW_WIDTH=400
 WINDOW_HEIGHT=440
 W=20
@@ -32,13 +34,13 @@ MUR_HOR=font.render("_",True,WHITE)
 PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
-MONEY=font.render("*",True,WHITE)
+MONEY=font.render("*",True,GOLD)
+POTION=font.render("P",True,GREEN)
 
 #Barre d'état
 Or=0
 Pv=0
 Lvl=1
-GOLD=(255,215,0)
 AFFICHE_OR=font.render("Gold : ",True,GOLD)
 AFFICHE_PV=font.render("PV : ",True,GOLD)
 AFFICHE_LEVEL=font.render("Level :",True,GOLD)
@@ -90,11 +92,19 @@ def generate_gold(matrice):
                     matrice[i][j] = '*'  # Remplacer le point par de l'or
     return matrice
 
+def generate_potion(matrice):
+    for i in range(matrice.shape[0]):
+        for j in range(matrice.shape[1]):
+            if matrice[i][j] == '.':  # Si c'est un point
+                if rd.random() < 0.01:  # 10% de chance de devenir de l'or
+                    matrice[i][j] = 'P'  # Remplacer le point par de l'or
+    return matrice
 
 BACKGROUND = etage_1()
 PLATEAU = BACKGROUND.copy()
 PLATEAU[pos[0]][pos[1]]='@'
 generate_gold(PLATEAU)
+generate_potion(PLATEAU)
 
 def drawGrid():
     AFFICHE_OR1=font.render(str(Or),True,GOLD)
@@ -119,6 +129,8 @@ def drawGrid():
                 SCREEN.blit(ESCALIER,(j*blockSize,i*blockSize))
             if PLATEAU[i][j]=='*':
                 SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
+            if PLATEAU[i][j]=='P':
+                SCREEN.blit(POTION,(j*blockSize,i*blockSize))
     SCREEN.blit(AFFICHE_LEVEL,(0,21*blockSize))
     SCREEN.blit(AFFICHE_OR,(8*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV,(15*blockSize,21*blockSize))
@@ -133,6 +145,7 @@ def move(event):
     global Or
     global BACKGROUND
     global PLATEAU
+    global Pv
 
     x, y = pos
     if (event.key == pygame.K_LEFT and pos_possible((x,y-1), PLATEAU)==True) :  # Flèche gauche
@@ -146,15 +159,24 @@ def move(event):
     PLATEAU[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
     if PLATEAU[x][y]=='=':
-        Lvl +=1
-        BACKGROUND=etage_2()
+        if Lvl ==1 :
+            BACKGROUND=etage_2()
+            Lvl+=1
         PLATEAU=BACKGROUND.copy()
         generate_gold(PLATEAU)
+        generate_potion(PLATEAU)
+        if (x,y)==(14,6):
+            pos=(6,2)
+        if (x,y)==(12,17):
+            pos=(16,17)
         PLATEAU[pos[0]][pos[1]]='@'
     else:
         if PLATEAU[x][y]=='*':
             Or +=10
-            PLATEAU[x][y]=="."
+            PLATEAU[x][y]="."
+        if PLATEAU[x][y]=="P":
+            Pv+=50
+            PLATEAU[x][y]="."
         PLATEAU[x][y]='@'
 
 
@@ -165,7 +187,7 @@ def check(pos):
 
 
 def pos_possible(pos,plateau):
-    autorisé=['.','#','+','=','*']
+    autorisé=['.','#','+','=','*','P']
     interdit=['|','_','@']
     x,y=pos[0],pos[1]
     
