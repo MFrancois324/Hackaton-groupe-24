@@ -25,3 +25,4 @@ new_pos = move(position)
 
 print(f"Ancienne position : {position}")
 print(f"Nouvelle position : {new_pos}")
+
