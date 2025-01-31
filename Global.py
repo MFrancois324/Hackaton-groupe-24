@@ -333,7 +333,7 @@ while True:
             move_K()
             tuer_monstre(PLATEAU,pos)
             compte_points_monstre(PLATEAU,pos)
+            est_mort()
         pygame.display.update()
-    est_mort()
     pygame.time.delay(100)
 
