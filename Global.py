@@ -28,7 +28,7 @@ font = pygame.font.Font(None, 30)  # Police par défaut, taille 74
 POINT=font.render(".",True,WHITE)
 COULOIR=font.render("#",True,WHITE)
 MUR_VERT=font.render("|",True,WHITE)
-MUR_HOR=font.render("-",True,WHITE)
+MUR_HOR=font.render("_",True,WHITE)
 PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
@@ -48,35 +48,52 @@ AFFICHE_LEVEL=font.render("Level :",True,GOLD)
 ### LA FONCTION AFFICHAGE ###
 def etage_1(): 
     matrice = np.zeros ((20,20),dtype=str)
-    matrice[0] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
+    matrice[0] = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
     matrice[1] = ['|','.','.','.','+','#','#','#','#','#','+','.','.','.','.','.','|','','','|']
-    matrice[2] = ['|','.','.','.','|','','','','','','|','.','.','.','.','.','|','-','-','|']
+    matrice[2] = ['|','.','.','.','|','','','','','','|','.','.','.','.','.','|','_','_','|']
     matrice[3] = ['|','.','.','.','|','','','','','','|','.','.','.','.','.','.','.','.','|']
-    matrice[4] = ['|','.','.','.','|','','','','','','|','-','-','-','-','+','-','-','-','|']
+    matrice[4] = ['|','.','.','.','|','','','','','','|','_','_','_','_','+','_','_','_','|']
     matrice[5] = ['|','.','.','.','+','#','#','','','','','','','','','#','','','','|']
-    matrice[6] = ['|','-','+','-','-','','#','','|','-','-','-','-','','','#','','','','|']
+    matrice[6] = ['|','_','+','_','_','','#','','|','_','_','_','_','','','#','','','','|']
     matrice[7] = ['|','','#','','','','#','','|','.','.','.','.','|','','#','','','','|']
-    matrice[8] = ['|','','#','','','','#','#','+','.','.','.','.','|','-','+','-','-','-','|']
-    matrice[9] = ['|','','#','','','','','','|','-','-','-','-','|','|','.','.','.','.','|']
+    matrice[8] = ['|','','#','','','','#','#','+','.','.','.','.','|','_','+','_','_','_','|']
+    matrice[9] = ['|','','#','','','','','','|','_','_','_','_','|','|','.','.','.','.','|']
 
-    matrice_bas= np.array([["|","-","+","-","-","-","-","-","|","","","","","","|",".",".",".",".","|"],
+    matrice_bas= np.array([["|","_","+","_","_","_","_","_","|","","","","","","|",".",".",".",".","|"],
         ["|",".",".",".",".",".",".",".","|","","","","","","|",".",".",".",".","|"] ,
         ["|",".",".",".",".",".",".",".","+","#","#","#","#","","|",".",".","=",".","|"],
         ["|",".",".",".",".",".",".",".","|","","","","#","","|",".",".",".",".","|"],
-        ["|","-","-","+","-","|","=",".","|","","","","#","#","+",".",".",".",".","|"],
+        ["|","_","_","+","_","|","=",".","|","","","","#","#","+",".",".",".",".","|"],
         ["|","","","#","","|",".",".","|","","","","","","|",".",".",".",".","|"],
-        ["|","","","#","","|","-","-","-","","","","","","|","-","-","+","-","|"],
-        ["|","-","-","+","-","-","-","-","-","-","-","-","-","-","|","","#","#","","|"],
+        ["|","","","#","","|","_","_","_","","","","","","|","_","_","+","_","|"],
+        ["|","_","_","+","_","_","_","_","_","_","_","_","_","_","|","","#","#","","|"],
         ["|",".",".",".",".",".",".",".",".",".",".",".",".",".","+","#","#","","","|"],
-    ["|","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","|"]])
+    ["|","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","_","|"]])
 
 
 
     return np.vstack((matrice[:10],matrice_bas))
 
 def etage_2():
-    matrice = np.transpose(etage_1())
+    matrice = np.zeros ((20,20),dtype=str)
+    matrice[0] = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
+    matrice[1] = ['|','|','.','.','.','.','.','.','.','|','','','','','','','','','','|']
+    matrice[2] = matrice[1]
+    matrice[3] = matrice[1]
+    matrice[4] = ['|','|','.','.','.','.','.','.','.','+','#','#','#','#','#','#','_','_','_','|']
+    matrice[5] = ['|','|','_','_','_','.','.','.','.','|','','','','','_','+','_','.','|','|']
+    matrice[6] = ['|','','.','.','|','_','_','+','_','|','','','','','|','.','.','.','|','|']
+    matrice[7] = ['|','','.','.','','','','#','','','','|','_','_','_','.','.','.','|','|']
+    matrice[8] = ['|','','.','.','','','','#','#','#','#','+','.','.','.','.','.','.','|','|']
+    matrice[9] = ['|','','.','.','','','','','','','','|','_','_','_','_','_','_','|','|']
+    matrice[10] = ['|','','','','','','','','','','','','','','','','','','','|'] 
+    for i in range(10):
+        matrice[10+i]=matrice[10-i]
+    matrice[18]=matrice[1]
+    matrice[19]= ['|','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','|']
+    
     return matrice
+
 
 def generate_gold(matrice):
     """
@@ -111,7 +128,7 @@ def drawGrid():
                 SCREEN.blit(COULOIR,(j*blockSize,i*blockSize))
             if PLATEAU[i][j]=='+':
                 SCREEN.blit(PORTE,(j*blockSize,i*blockSize))
-            if PLATEAU[i][j]=='-':
+            if PLATEAU[i][j]=='_':
                 SCREEN.blit(MUR_HOR,(j*blockSize,i*blockSize))
             if PLATEAU[i][j]=='@':
                 SCREEN.blit(PERSO,(j*blockSize,i*blockSize))
@@ -126,28 +143,36 @@ def drawGrid():
     SCREEN.blit(AFFICHE_OR1,(12*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV1,(18*blockSize,21*blockSize))
 
-def move(plateau, event):
+def move(event):
     # Déplace le joueur en fonction de l'événement clavier
     global pos
     global Lvl
     global Or
+    global BACKGROUND
+    global PLATEAU
+
     x, y = pos
-    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), plateau)==True) :  # Flèche gauche
+    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), PLATEAU)==True) :  # Flèche gauche
         y -= 1
-    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),plateau)== True):  # Flèche droite
+    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),PLATEAU)== True):  # Flèche droite
         y += 1
-    elif (event.key == pygame.K_UP and pos_possible((x-1,y), plateau)== True):  # Flèche haut
+    elif (event.key == pygame.K_UP and pos_possible((x-1,y), PLATEAU)== True):  # Flèche haut
         x -= 1
-    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), plateau)==True):  # Flèche bas
+    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), PLATEAU)==True):  # Flèche bas
         x += 1
-    plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
+    PLATEAU[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
-    if BACKGROUND[x][y]=='=':
+    if PLATEAU[x][y]=='=':
         Lvl +=1
-    elif BACKGROUND[x][y]=='*':
-        Or +=10
-        BACKGROUND[x][y]=="."
-    plateau[x][y]='@'
+        BACKGROUND=etage_2()
+        PLATEAU=BACKGROUND.copy()
+        generate_gold(PLATEAU)
+        PLATEAU[pos[0]][pos[1]]='@'
+    else:
+        if PLATEAU[x][y]=='*':
+            Or +=10
+            PLATEAU[x][y]=="."
+        PLATEAU[x][y]='@'
 
 
 
@@ -157,8 +182,8 @@ def check(pos):
 
 
 def pos_possible(pos,plateau):
-    autorisé=['.','#','+','=']
-    interdit=['|','-','@']
+    autorisé=['.','#','+','=','*']
+    interdit=['|','_','@']
     x,y=pos[0],pos[1]
     
     if check((x,y)) and (plateau[x][y] in autorisé):
@@ -177,7 +202,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            move(PLATEAU,event)
+            move(event)
         pygame.display.update()
     pygame.time.delay(100)
 
