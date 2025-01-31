@@ -39,11 +39,9 @@ Pv=0
 Lvl=1
 GOLD=(255,215,0)
 AFFICHE_OR=font.render("Gold : ",True,GOLD)
-AFFICHE_OR1=font.render(str(Or),True,GOLD)
 AFFICHE_PV=font.render("PV : ",True,GOLD)
-AFFICHE_PV1=font.render(str(Pv),True,GOLD)
 AFFICHE_LEVEL=font.render("Level :",True,GOLD)
-AFFICHE_LEVEL1=font.render(str(Lvl),True,GOLD)
+
 
 
 ### LA FONCTION AFFICHAGE ###
@@ -86,6 +84,9 @@ PLATEAU[pos[0]][pos[1]]='@'
 #PLATEAU[3][19]='='
 
 def drawGrid():
+    AFFICHE_OR1=font.render(str(Or),True,GOLD)
+    AFFICHE_PV1=font.render(str(Pv),True,GOLD)
+    AFFICHE_LEVEL1=font.render(str(Lvl),True,GOLD)
     blockSize = 20 #Set the size of the grid block
     for i in range (20):
         for j in range (20):
@@ -115,6 +116,8 @@ def drawGrid():
 def move(plateau, event):
     # Déplace le joueur en fonction de l'événement clavier
     global pos
+    global Lvl
+    global Or
     x, y = pos
     if (event.key == pygame.K_LEFT and pos_possible((x,y-1), plateau)==True) :  # Flèche gauche
         y -= 1
@@ -126,6 +129,10 @@ def move(plateau, event):
         x += 1
     plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
+    if BACKGROUND[x][y]=='=':
+        Lvl +=1
+    elif BACKGROUND[x][y]=='*':
+        Or +=10
     plateau[x][y]='@'
 
 
