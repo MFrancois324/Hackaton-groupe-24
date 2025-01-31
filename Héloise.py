@@ -63,5 +63,9 @@ def check(pos):
 def pos_possible(pos,plateau):
     autorisé=['.','#','+','=']
     interdit=['|','-','@']
-
+    x,y=pos[0],pos[1]
     
+    if check(x,y) and (plateau[x][y] in autorisé):
+        return True
+    else :
+        return False
