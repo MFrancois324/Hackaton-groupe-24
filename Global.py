@@ -124,7 +124,7 @@ def move(plateau, event):
         x -= 1
     elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), plateau)==True):  # Flèche bas
         x += 1
-    plateau[pos[0]][pos[1]]=BACKGROUND[x][y]
+    plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
     plateau[x][y]='@'
 
