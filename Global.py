@@ -10,7 +10,7 @@ import pygame, sys
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 WINDOW_WIDTH=400
-WINDOW_HEIGHT=400
+WINDOW_HEIGHT=440
 global SCREEN, CLOCK
 
 pygame.init()
@@ -28,6 +28,19 @@ PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
 MONEY=font.render("*",True,WHITE)
+
+#Barre d'état
+Or=0
+Pv=0
+Lvl=1
+GOLD=(255,215,0)
+AFFICHE_OR=font.render("Gold : ",True,GOLD)
+AFFICHE_OR1=font.render(str(Or),True,GOLD)
+AFFICHE_PV=font.render("PV : ",True,GOLD)
+AFFICHE_PV1=font.render(str(Pv),True,GOLD)
+AFFICHE_LEVEL=font.render("Level :",True,GOLD)
+AFFICHE_LEVEL1=font.render(str(Lvl),True,GOLD)
+
 
 ### LA FONCTION AFFICHAGE ###
 matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
@@ -55,7 +68,12 @@ def drawGrid():
                 SCREEN.blit(ESCALIER,(j*blockSize,i*blockSize))
             if matrice[i][j]=='*':
                 SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
-
+    SCREEN.blit(AFFICHE_LEVEL,(0,21*blockSize))
+    SCREEN.blit(AFFICHE_OR,(8*blockSize,21*blockSize))
+    SCREEN.blit(AFFICHE_PV,(15*blockSize,21*blockSize))
+    SCREEN.blit(AFFICHE_LEVEL1,(4*blockSize,21*blockSize))
+    SCREEN.blit(AFFICHE_OR1,(12*blockSize,21*blockSize))
+    SCREEN.blit(AFFICHE_PV1,(18*blockSize,21*blockSize))
 
 #La boucle de jeu principale
 while True:
