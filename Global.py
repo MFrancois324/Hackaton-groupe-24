@@ -183,9 +183,9 @@ def move(event):
         generate_gold(PLATEAU)
         generate_potion(PLATEAU)
         if (x,y)==(14,6):
-            pos=(6,2)
+            pos=(4,2)
         if (x,y)==(12,17):
-            pos=(16,17)
+            pos=(15,17)
         PLATEAU[pos[0]][pos[1]]='@'
     else:
         if PLATEAU[x][y]=='*':
