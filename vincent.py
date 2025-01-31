@@ -6,3 +6,5 @@ import numpy as np
 def affiche(matrix): 
     for row in matrix:
         print("".join(row))  # Joint les éléments de la ligne en une seule chaîne
+
+matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
