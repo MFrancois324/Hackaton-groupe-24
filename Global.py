@@ -27,14 +27,34 @@ MUR_HOR=font.render("-",True,WHITE)
 PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
+MONEY=font.render("*",True,WHITE)
+
+### LA FONCTION AFFICHAGE ###
+matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
+matrice [0], matrice [19]= ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'], ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
+matrice[3][14]='@'
+matrice[3][19]='='
 
 def drawGrid():
     blockSize = 20 #Set the size of the grid block
-    for x in range(0, WINDOW_WIDTH, blockSize):
-        for y in range(0, WINDOW_HEIGHT, blockSize):
-            #rect = pygame.Rect(x, y, blockSize, blockSize)
-            #pygame.draw.rect(SCREEN, WHITE, rect, 1)
-            SCREEN.blit(POINT,(x,y))
+    for i in range (20):
+        for j in range (20):
+            if matrice[i][j]=='|':
+                SCREEN.blit(MUR_VERT,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='.':
+                SCREEN.blit(POINT,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='#':
+                SCREEN.blit(COULOIR,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='+':
+                SCREEN.blit(PORTE,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='-':
+                SCREEN.blit(MUR_HOR,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='@':
+                SCREEN.blit(PERSO,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='=':
+                SCREEN.blit(ESCALIER,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='*':
+                SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
 
 
 #La boucle de jeu principale
@@ -48,4 +68,5 @@ while True:
             pygame.quit()
             sys.exit()
         pygame.display.update()
+    pygame.time.delay(100)
 
