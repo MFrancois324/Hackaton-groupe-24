@@ -47,7 +47,7 @@ AFFICHE_LEVEL1=font.render(str(Lvl),True,GOLD)
 
 
 ### LA FONCTION AFFICHAGE ###
-def matrix(): 
+def etage_1(): 
     matrice = np.zeros ((20,20),dtype=str)
     matrice[0] = ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
     matrice[1] = ['|','.','.','.','+','#','#','#','#','#','+','.','.','.','.','.','|','','','|']
@@ -75,7 +75,12 @@ def matrix():
 
     return np.vstack((matrice[:10],matrice_bas))
 
-BACKGROUND = matrix()
+def etage_2():
+    matrice = np.transpose(etage_1())
+    return matrice
+
+
+BACKGROUND = etage_1()
 PLATEAU = BACKGROUND.copy()
 PLATEAU[pos[0]][pos[1]]='@'
 #PLATEAU[3][19]='='
