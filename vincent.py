@@ -5,7 +5,6 @@ matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".","."
 
 
 
-# Fonction affichage
 
 
 import numpy as np
@@ -42,6 +41,7 @@ font = pygame.font.Font(None, 30)  # Police par défaut, taille 74
 POINT=font.render(".",True,WHITE)
 
 ### LA FONCTION AFFICHAGE ###
+matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
 
 def drawGrid():
     blockSize = 20 #Set the size of the grid block
