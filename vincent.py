@@ -43,7 +43,7 @@ POINT=font.render(".",True,WHITE)
 ### LA FONCTION AFFICHAGE ###
 matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
 matrice [0], matrice [19]= ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'], ['-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-']
-print (len (matrice [0]))
+
 def drawGrid():
     blockSize = 20 #Set the size of the grid block
     for i in range (20):
