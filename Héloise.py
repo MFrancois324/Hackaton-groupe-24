@@ -37,34 +37,31 @@ from pygame.locals import *
 import pygame, sys
 # Initialisation
 pygame.init()
-screen = pygame.display.set_mode((400, 300))
-pygame.display.set_caption('MiniRogue')
-#La boucle de jeu principale
-while True:
-    sysFont = pygame.font.SysFont("None", 32)
-    rendered = sysFont.render('Hello World', 0, (255,100, 100))
-    screen.blit(rendered, (100, 100))
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-        pygame.display.update()
 
 
-
-
-
-def move(position, event):
+def move(position, plateau, event):
     # Déplace le joueur en fonction de l'événement clavier
     x, y = position
 
-    if event.key == pygame.K_LEFT:  # Flèche gauche
-        x -= 1
-    elif event.key == pygame.K_RIGHT:  # Flèche droite
-        x += 1
-    elif event.key == pygame.K_UP:  # Flèche haut
-        y -= 1
-    elif event.key == pygame.K_DOWN:  # Flèche bas
-        y += 1
+    if (event.key == pygame.K_LEFT and pos_possible((x-20,y), plateau)==True) :  # Flèche gauche
+        x -= 20
+    elif (event.key == pygame.K_RIGHT and pos_possible((x+20,y),plateau)== True):  # Flèche droite
+        x += 20
+    elif (event.key == pygame.K_UP and pos_possible((x,y-20), plateau)== True):  # Flèche haut
+        y -= 20
+    elif (event.key == pygame.K_DOWN and pos_possible((x,y+20), plateau)==True):  # Flèche bas
+        y += 20
 
     return ((x, y))
+
+
+def check(pos):
+    x,y=pos[0],pos[1]
+    return x>=0 and x<W and y>=0 and y<H
+
+
+def pos_possible(pos,plateau):
+    autorisé=['.','#','+','=']
+    interdit=['|','-','@']
+
+    
