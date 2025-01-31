@@ -27,6 +27,7 @@ MUR_HOR=font.render("-",True,WHITE)
 PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
+MONEY=font.render("*",True,WHITE)
 
 ### LA FONCTION AFFICHAGE ###
 matrice = np.array([['|',".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","|"]for _ in range (20)])
@@ -52,6 +53,8 @@ def drawGrid():
                 SCREEN.blit(PERSO,(j*blockSize,i*blockSize))
             if matrice[i][j]=='=':
                 SCREEN.blit(ESCALIER,(j*blockSize,i*blockSize))
+            if matrice[i][j]=='*':
+                SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
 
 
 #La boucle de jeu principale
