@@ -126,28 +126,36 @@ def drawGrid():
     SCREEN.blit(AFFICHE_OR1,(12*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV1,(18*blockSize,21*blockSize))
 
-def move(plateau, event):
+def move(event):
     # Déplace le joueur en fonction de l'événement clavier
     global pos
     global Lvl
     global Or
+    global BACKGROUND
+    global PLATEAU
+
     x, y = pos
-    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), plateau)==True) :  # Flèche gauche
+    if (event.key == pygame.K_LEFT and pos_possible((x,y-1), PLATEAU)==True) :  # Flèche gauche
         y -= 1
-    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),plateau)== True):  # Flèche droite
+    elif (event.key == pygame.K_RIGHT and pos_possible((x,y+1),PLATEAU)== True):  # Flèche droite
         y += 1
-    elif (event.key == pygame.K_UP and pos_possible((x-1,y), plateau)== True):  # Flèche haut
+    elif (event.key == pygame.K_UP and pos_possible((x-1,y), PLATEAU)== True):  # Flèche haut
         x -= 1
-    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), plateau)==True):  # Flèche bas
+    elif (event.key == pygame.K_DOWN and pos_possible((x+1,y), PLATEAU)==True):  # Flèche bas
         x += 1
-    plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
+    PLATEAU[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
     if PLATEAU[x][y]=='=':
         Lvl +=1
-    elif PLATEAU[x][y]=='*':
-        Or +=10
-        PLATEAU[x][y]=="."
-    plateau[x][y]='@'
+        BACKGROUND=etage_2()
+        PLATEAU=BACKGROUND.copy()
+        generate_gold(PLATEAU)
+        PLATEAU[pos[0]][pos[1]]='@'
+    else:
+        if PLATEAU[x][y]=='*':
+            Or +=10
+            PLATEAU[x][y]=="."
+        PLATEAU[x][y]='@'
 
 
 
@@ -177,7 +185,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            move(PLATEAU,event)
+            move(event)
         pygame.display.update()
     pygame.time.delay(100)
 
