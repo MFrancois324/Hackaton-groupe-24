@@ -1,105 +1,13 @@
-
-def move(pose): 
-    #demande la direction souhaité par l'utilisateur et renvoie les nouvelle position du joueur en prenant en paramètre l'ancienne position
-    x, y = pose 
-
-    direction = input("Où voulez-vous aller ? (gauche= g, droite= d, haut= h, bas= b) ")
-
-    if direction == "g": 
-        x -= 1
-    elif direction == "d": 
-        x += 1
-    elif direction == "h":
-        y += 1
-    elif direction == "b": 
-        y -= 1
-    else:
-        print("Direction invalide.")
-
-    return (x, y)
-
-
-position = (1, 1) # Position initiale
-new_pos = move(position)
-
-
-print(f"Ancienne position : {position}")
-print(f"Nouvelle position : {new_pos}")
-
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import pygame as pg 
-
-from pygame.locals import *
-import pygame, sys
-# Initialisation
-pygame.init()
-
-
-def move(position, plateau, event):
-    # Déplace le joueur en fonction de l'événement clavier
-    x, y = position
-
-    if (event.key == pygame.K_LEFT and pos_possible((x-20,y), plateau)==True) :  # Flèche gauche
-        x -= 20
-    elif (event.key == pygame.K_RIGHT and pos_possible((x+20,y),plateau)== True):  # Flèche droite
-        x += 20
-    elif (event.key == pygame.K_UP and pos_possible((x,y-20), plateau)== True):  # Flèche haut
-        y -= 20
-    elif (event.key == pygame.K_DOWN and pos_possible((x,y+20), plateau)==True):  # Flèche bas
-        y += 20
-
-    return ((x, y))
+import numpy
+import pygame
+import random as rd
+import sys
 
 
 
+###### Partie Monstre fixe #######
 
-def check(pos):
-    x,y=pos[0],pos[1]
-    return x>=0 and x<W and y>=0 and y<H
-
-
-def pos_possible(pos,plateau):
-    autorisé=['.','#','+','=']
-    interdit=['|','-','@']
-    x,y=pos[0],pos[1]
-    
-    if check(x,y) and (plateau[x][y] in autorisé):
-        return True
-    else :
-        return False
-    
-#20x20
-
-
-
-
-matrice_bas= [["|","-","+","-","-","-","-","-","|","","","","","","|",".",".",".",".","|"],
-    ["|",".",".",".",".",".",".",".","|","","","","","","|",".",".",".",".","|"] ,
-    ["|",".",".",".",".",".",".",".","+","#","#","#","#","","|",".",".","=",".","|"],
-    ["|",".",".",".",".",".",".",".","|","","","","#","","|",".",".",".",".","|"],
-    ["|","-","-","+","-","|","=",".","|","","","","#","#","+",".",".",".",".","|"],
-    ["|","","","#","","|",".",".","|","","","","","","|",".",".",".",".","|"],
-    ["|","","","#","","|","-","-","-","","","","","","|","-","-","+","-","|"],
-    ["|","-","-","+","-","-","-","-","-","-","-","-","-","-","|","","#","#","","|"],
-    ["|",".",".",".",".",".",".",".",".",".",".",".",".",".","+","#","#","","","|"],
-["|","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","|"]]
-
-
-
-
-#### Ramasser de l'or : 
- 
-i,j = position[0],position[1]
-if matrice[i][j] =="*" :
-    Or+=1
-
-
-import random
-
-def generate_gold(matrice):
+def generate_monster(matrice):
     """
     Remplace aléatoirement 10% des points dans la matrice par de l'or ('*').
     Les points sont initialement des '.'.
@@ -107,6 +15,39 @@ def generate_gold(matrice):
     for i in range(matrice.shape[0]):
         for j in range(matrice.shape[1]):
             if matrice[i][j] == '.':  # Si c'est un point
-                if random.random() < 0.1:  # 10% de chance de devenir de l'or
-                    matrice[i][j] = '*'  # Remplacer le point par de l'or
+                if rd.random() < 0.1:  # 10% de chance de devenir un monstre
+                    matrice[i][j] = 'M'  # Remplacer le point par un monstre
     return matrice
+
+def compte_points_monstre_fixe(matrice, position) :
+    i,j = position[0], position[1]
+    if matrice[i+1][j]=="M" or matrice[i-1][j]=="M" or matrice[i][j+1]=="M" or matrice[i][j-1]=="M" :
+        Pv-=10
+        if Pv==0 : 
+            print("Game Over")
+        
+def tuer_monstre(matrice, position) :
+    
+    i,j = position[0],position[1]
+    if (event.key == pygame.K_LEFT and matrice[i-1][j]=="M") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i-1][j]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+    if (event.key == pygame.K_RIGHT and matrice[i+1][j]=="M") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i+1][j]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+    if (event.key == pygame.K_UP and matrice[i][j+1]=="M") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i][j+1]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+        
+    if (event.key == pygame.K_DOWN and matrice[i][j-1]=="M") :  # Flèche gauche pour tuer le monstre 
+        if rd.random() < 0.5:
+           matrice[i][j-1]=="."    # monstre tué 
+           Pv+=30   # gagne des vies
+
+        
