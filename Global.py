@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import pygame as pg 
+import random as rd
 
 from pygame.locals import *
 import pygame, sys
@@ -79,11 +80,23 @@ def etage_2():
     matrice = np.transpose(etage_1())
     return matrice
 
+def generate_gold(matrice):
+    """
+    Remplace aléatoirement 10% des points dans la matrice par de l'or ('*').
+    Les points sont initialement des '.'.
+    """
+    for i in range(matrice.shape[0]):
+        for j in range(matrice.shape[1]):
+            if matrice[i][j] == '.':  # Si c'est un point
+                if rd.random() < 0.1:  # 10% de chance de devenir de l'or
+                    matrice[i][j] = '*'  # Remplacer le point par de l'or
+    return matrice
+
 
 BACKGROUND = etage_1()
 PLATEAU = BACKGROUND.copy()
 PLATEAU[pos[0]][pos[1]]='@'
-#PLATEAU[3][19]='='
+generate_gold(PLATEAU)
 
 def drawGrid():
     blockSize = 20 #Set the size of the grid block
