@@ -142,11 +142,11 @@ def move(plateau, event):
         x += 1
     plateau[pos[0]][pos[1]]=BACKGROUND[pos[0]][pos[1]]
     pos = (x,y)
-    if BACKGROUND[x][y]=='=':
+    if PLATEAU[x][y]=='=':
         Lvl +=1
-    elif BACKGROUND[x][y]=='*':
+    elif PLATEAU[x][y]=='*':
         Or +=10
-        BACKGROUND[x][y]=="."
+        PLATEAU[x][y]=="."
     plateau[x][y]='@'
 
 
@@ -157,7 +157,7 @@ def check(pos):
 
 
 def pos_possible(pos,plateau):
-    autorisé=['.','#','+','=']
+    autorisé=['.','#','+','=','*']
     interdit=['|','-','@']
     x,y=pos[0],pos[1]
     
