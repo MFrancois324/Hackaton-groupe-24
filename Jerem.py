@@ -73,7 +73,7 @@ MUR_HOR=font.render("-",True,WHITE)
 PORTE=font.render("+",True,WHITE)
 ESCALIER=font.render("=",True,WHITE)
 PERSO=font.render("@",True,WHITE)
-
+MONEY=font.render("*",True,WHITE)
 
 #Barre d'état
 Or=0
@@ -107,6 +107,8 @@ def drawGrid():
                 SCREEN.blit(PERSO,(j*blockSize,i*blockSize))
             if PLATEAU[i][j]=='=':
                 SCREEN.blit(ESCALIER,(j*blockSize,i*blockSize))
+            if PLATEAU[i][j]=='*':
+                SCREEN.blit(MONEY,(j*blockSize,i*blockSize))
     SCREEN.blit(AFFICHE_LEVEL,(0,21*blockSize))
     SCREEN.blit(AFFICHE_OR,(8*blockSize,21*blockSize))
     SCREEN.blit(AFFICHE_PV,(15*blockSize,21*blockSize))
