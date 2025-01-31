@@ -96,4 +96,17 @@ i,j = position[0],position[1]
 if matrice[i][j] =="*" :
     Or+=1
 
-    
+
+import random
+
+def generate_gold(matrice):
+    """
+    Remplace aléatoirement 10% des points dans la matrice par de l'or ('*').
+    Les points sont initialement des '.'.
+    """
+    for i in range(matrice.shape[0]):
+        for j in range(matrice.shape[1]):
+            if matrice[i][j] == '.':  # Si c'est un point
+                if random.random() < 0.1:  # 10% de chance de devenir de l'or
+                    matrice[i][j] = '*'  # Remplacer le point par de l'or
+    return matrice
