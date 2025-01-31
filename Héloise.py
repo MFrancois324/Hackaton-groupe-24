@@ -29,23 +29,23 @@ def compte_points_monstre_fixe(matrice, position) :
 def tuer_monstre(matrice, position) :
     
     i,j = position[0],position[1]
-    if (event.key == pygame.K_LEFT and matrice[i-1][j]=="M") :  # Flèche gauche pour tuer le monstre 
+    if (event.key == pygame.K_LEFT and matrice[i-1][j]=="M" or matrice[i-1][j]=="K") :  # Flèche gauche pour tuer le monstre 
         if rd.random() < 0.5:
            matrice[i-1][j]=="."    # monstre tué 
            Pv+=30   # gagne des vies
 
-    if (event.key == pygame.K_RIGHT and matrice[i+1][j]=="M") :  # Flèche gauche pour tuer le monstre 
+    if (event.key == pygame.K_RIGHT and matrice[i+1][j]=="M" or matrice[i+1][j]=="K") :  # Flèche gauche pour tuer le monstre 
         if rd.random() < 0.5:
            matrice[i+1][j]=="."    # monstre tué 
            Pv+=30   # gagne des vies
 
-    if (event.key == pygame.K_UP and matrice[i][j+1]=="M") :  # Flèche gauche pour tuer le monstre 
+    if (event.key == pygame.K_UP and matrice[i][j+1]=="M" ormatrice[i][j+1]=="K") :  # Flèche gauche pour tuer le monstre 
         if rd.random() < 0.5:
            matrice[i][j+1]=="."    # monstre tué 
            Pv+=30   # gagne des vies
 
         
-    if (event.key == pygame.K_DOWN and matrice[i][j-1]=="M") :  # Flèche gauche pour tuer le monstre 
+    if (event.key == pygame.K_DOWN and matrice[i][j-1]=="M" or matrice[i][j-1]=="K") :  # Flèche gauche pour tuer le monstre 
         if rd.random() < 0.5:
            matrice[i][j-1]=="."    # monstre tué 
            Pv+=30   # gagne des vies
