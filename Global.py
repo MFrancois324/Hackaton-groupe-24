@@ -133,6 +133,7 @@ def move(plateau, event):
         Lvl +=1
     elif BACKGROUND[x][y]=='*':
         Or +=10
+        BACKGROUND[x][y]=="."
     plateau[x][y]='@'
 
 
