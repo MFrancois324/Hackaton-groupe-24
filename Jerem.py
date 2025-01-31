@@ -11,6 +11,8 @@ BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 WINDOW_WIDTH=400
 WINDOW_HEIGHT=400
+W=20
+H=20
 global SCREEN, CLOCK
 blockSize = 20 #Set the size of the grid block
 pos = (1,1)
@@ -24,19 +26,21 @@ PLATEAU = BACKGROUND.copy()
 
 
 
-def move(position, plateau, event):
+def move(plateau, event):
     # Déplace le joueur en fonction de l'événement clavier
-    x, y = position
-    if (event.type == pygame.K_LEFT and pos_possible((x-1,y), plateau)==True) :  # Flèche gauche
-        x -= 1
-    elif (event.type == pygame.K_RIGHT and pos_possible((x+1,y),plateau)== True):  # Flèche droite
-        x += 1
-    elif (event.type == pygame.KEYUP and pos_possible((x,y-1), plateau)== True):  # Flèche haut
+    global pos
+    x, y = pos
+    print(event.key)
+    if (event.key == pygame.K_LEFT and pos_possible((x-1,y), plateau)==True) :  # Flèche gauche
         y -= 1
-    elif (event.type == pygame.KEYDOWN and pos_possible((x,y+1), plateau)==True):  # Flèche bas
+    elif (event.key == pygame.K_RIGHT and pos_possible((x+1,y),plateau)== True):  # Flèche droite
         y += 1
-    plateau[position[0]][position[1]]=BACKGROUND[x][y]
-    position = (x,y)
+    elif (event.key == pygame.K_UP and pos_possible((x,y-1), plateau)== True):  # Flèche haut
+        x -= 1
+    elif (event.key == pygame.K_DOWN and pos_possible((x,y+1), plateau)==True):  # Flèche bas
+        x += 1
+    plateau[pos[0]][pos[1]]=BACKGROUND[x][y]
+    pos = (x,y)
     plateau[x][y]='@'
 
 
@@ -99,11 +103,11 @@ while True:
     #rendered = sysFont.render('Hello World', 0, (255,100, 100))
     #SCREEN.blit(rendered, (WINDOW_HEIGHT, WINDOW_HEIGHT))
     for event in pygame.event.get():
-        print(event)
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        move(pos,PLATEAU,event)
+        if event.type == KEYDOWN:
+            move(PLATEAU,event)
         #print(PLATEAU)
         pygame.display.update()
     pygame.time.delay(100)
